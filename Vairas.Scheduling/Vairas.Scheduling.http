@@ -1,0 +1,478 @@
+# Synthetic templates. Supply real authorized IDs and tokens externally. Keep each operation UUID unchanged on an exact transport retry.
+@baseUrl = https://localhost:7300
+@userToken = <user JWT>
+@workloadToken = <workload JWT>
+@schoolId = 602e6ca0-5c90-54e6-b8af-5a1d0cf0c21b
+@branchId = de15572a-061c-56da-8a81-f4019cb5b398
+@teacherId = 6566bee8-3270-52bf-b94e-f2ccbc87af5d
+@enrollmentId = b3292000-c968-5c10-8804-b417dfb3e281
+@studentId = 556c6677-99df-5adb-8fb8-6de1638a8e37
+@vehicleId = 5f8bde6a-4aba-5342-8a13-58d0abe5f043
+@groupId = f8db104e-2dde-5851-9959-37a01701d3fc
+@lessonId = af8cccdd-4ed3-5c8b-be7f-d374d6dbf52c
+@requestId = a14b9c56-a9d9-5a70-94d9-d684e42bebca
+@operationId = 3313c629-664d-5cd8-a6d6-4ef811d90582
+@appointmentId = 91a03efa-1c9e-5d1e-a9bc-0460e457428c
+@ruleVersionId = 94727711-109d-5886-a0a7-189c92ea9f74
+@blockId = b0eea25f-35c7-51f6-acb5-3b5905069979
+@actorUserId = 726ebb67-50b3-513c-9d4e-99c785ed58f9
+@targetId = 98df1ade-f949-5aab-b042-f6fb6d232e5f
+@confirmationId = 703f644d-9e06-538c-900e-025ad1f7a7bd
+
+### Return one consistent physical source revision to the authorized Learning workload.
+GET {{baseUrl}}/internal/v1/lessons/{{lessonId}}/training-source?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+
+### Acquire an immediate durable vehicle booking block.
+POST {{baseUrl}}/internal/v1/vehicle-blocks
+Authorization: Bearer {{workloadToken}}
+Idempotency-Key: 72802cf4-813d-5e48-9876-84dddd80a606
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "operationId": "{{operationId}}",
+  "vehicleId": "{{vehicleId}}",
+  "reason": "Maintenance",
+  "conflictPolicy": "RejectIfFutureBookings"
+}
+
+### Resolve a lost vehicle block acknowledgement.
+GET {{baseUrl}}/internal/v1/vehicle-blocks/by-operation/{{operationId}}?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+
+### Release one precisely identified block using a distinct command identity.
+POST {{baseUrl}}/internal/v1/vehicle-blocks/{{blockId}}/release
+Authorization: Bearer {{workloadToken}}
+Idempotency-Key: 49f6fd7a-0731-578c-b21f-3117c86c5e7e
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "operationId": "{{operationId}}",
+  "releaseOperationId": "5591a796-dbb5-51b5-a71d-1bfc47230799",
+  "reason": "Reactivated"
+}
+
+### Freeze eligibility and protect roster additions before School changes become effective.
+POST {{baseUrl}}/internal/v1/school-eligibility-operations
+Authorization: Bearer {{workloadToken}}
+Idempotency-Key: e6febcad-5e2b-5279-891d-b688bb19a4c8
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "operationId": "{{operationId}}",
+  "actorUserId": "{{actorUserId}}",
+  "beforeRevision": 1,
+  "afterRevision": 2,
+  "targetKind": "Membership",
+  "targetId": "{{targetId}}",
+  "effectiveFrom": "2030-01-07T08:00:00Z",
+  "reducesEligibility": false,
+  "resourceKind": "Student",
+  "resourceId": "f08e873f-e1cb-542a-943a-e852c94741fc",
+  "rosters": [
+    {
+      "lessonId": "{{lessonId}}",
+      "expectedRevision": 1,
+      "membershipRevision": 1,
+      "participants": [
+        {
+          "enrollmentId": "{{enrollmentId}}",
+          "studentId": "{{studentId}}"
+        }
+      ]
+    }
+  ]
+}
+
+### Resolve School coordination by its exact immutable operation identity.
+GET {{baseUrl}}/internal/v1/school-eligibility-operations/{{operationId}}?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+
+### Finalize only after verifying the authoritative School decision.
+POST {{baseUrl}}/internal/v1/school-eligibility-operations/{{operationId}}/commit?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+Idempotency-Key: 8d2c7405-36bc-53a9-979f-227df1fbf8c8
+
+### Return only the owning school's future allocations for preparing an exact change.
+GET {{baseUrl}}/internal/v1/schools/{{schoolId}}/lesson-impacts?targetKind=Membership&targetId={{targetId}}&from=2030-01-07T08:00:00Z
+Authorization: Bearer {{workloadToken}}
+
+### Atomically reserve a practical lesson and all its resources.
+POST {{baseUrl}}/api/v1/practical-lessons
+Authorization: Bearer {{userToken}}
+Idempotency-Key: fbccf1e4-f45b-58fe-b5b2-cf0ea49ec690
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "branchId": "{{branchId}}",
+  "teacherId": "{{teacherId}}",
+  "category": "B",
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "enrollmentId": "{{enrollmentId}}",
+  "studentId": "{{studentId}}",
+  "vehicleId": "{{vehicleId}}",
+  "groupId": null
+}
+
+### US-010 additional practical lesson linked to its enrollment and reason (optional reason: trimmed, at most 500 characters).
+POST {{baseUrl}}/api/v1/practical-lessons
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 7d1f3c52-0b7e-5a51-9f43-1c2a8e6b4d10
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "branchId": "{{branchId}}",
+  "teacherId": "{{teacherId}}",
+  "category": "B",
+  "startsAt": "2030-01-08T08:00:00Z",
+  "endsAt": "2030-01-08T08:45:00Z",
+  "enrollmentId": "{{enrollmentId}}",
+  "studentId": "{{studentId}}",
+  "vehicleId": "{{vehicleId}}",
+  "groupId": null,
+  "reason": "Additional lesson: outstanding city driving requirement"
+}
+
+### Atomically reserve a practical lesson and all its resources.
+POST {{baseUrl}}/internal/v1/delegated/practical-lessons
+Authorization: Bearer {{workloadToken}}
+X-User-Authorization: Bearer {{userToken}}
+X-Confirmation-ID: {{confirmationId}}
+Idempotency-Key: f716102c-8b27-59f4-8683-69876cf5d2ad
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "branchId": "{{branchId}}",
+  "teacherId": "{{teacherId}}",
+  "category": "B",
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "enrollmentId": "{{enrollmentId}}",
+  "studentId": "{{studentId}}",
+  "vehicleId": "{{vehicleId}}",
+  "groupId": null
+}
+
+### Reserve a theory group, teacher and the exact participant roster.
+POST {{baseUrl}}/api/v1/theory-lessons
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 10a2b33f-9439-59e5-a550-480ba180db37
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "branchId": "{{branchId}}",
+  "teacherId": "{{teacherId}}",
+  "category": "B",
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "enrollmentId": null,
+  "studentId": null,
+  "vehicleId": null,
+  "groupId": "{{groupId}}"
+}
+
+### Reserve a theory group, teacher and the exact participant roster.
+POST {{baseUrl}}/internal/v1/delegated/theory-lessons
+Authorization: Bearer {{workloadToken}}
+X-User-Authorization: Bearer {{userToken}}
+X-Confirmation-ID: {{confirmationId}}
+Idempotency-Key: 76bbc894-3982-51ea-87c6-1d14efbe1826
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "branchId": "{{branchId}}",
+  "teacherId": "{{teacherId}}",
+  "category": "B",
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "enrollmentId": null,
+  "studentId": null,
+  "vehicleId": null,
+  "groupId": "{{groupId}}"
+}
+
+### Read an authorized practical or theory lesson.
+GET {{baseUrl}}/api/v1/practical-lessons/{{lessonId}}?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+
+### Read an authorized practical or theory lesson.
+GET {{baseUrl}}/api/v1/theory-lessons/{{lessonId}}?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+
+### Replace the slot atomically; conflicts retain the original allocation.
+POST {{baseUrl}}/api/v1/practical-lessons/{{lessonId}}/rescheduling?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: d35e8650-6117-5163-9b26-1f7c081bb019
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "reason": "Audited manual action"
+}
+
+### Replace the slot atomically; conflicts retain the original allocation.
+POST {{baseUrl}}/api/v1/theory-lessons/{{lessonId}}/rescheduling?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 8fa92508-7db2-5fdf-8930-75225dc3299f
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "reason": "Audited manual action",
+  "groupId": "{{groupId}}",
+  "enrollmentId": null,
+  "studentId": null,
+  "vehicleId": null
+}
+
+### Replace the slot atomically; conflicts retain the original allocation.
+POST {{baseUrl}}/internal/v1/delegated/lessons/{{lessonId}}/rescheduling?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+X-User-Authorization: Bearer {{userToken}}
+X-Confirmation-ID: {{confirmationId}}
+Idempotency-Key: ad1cb1b0-f989-54c8-90a6-6f5985de27d8
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "reason": "Audited manual action"
+}
+
+### Cancel a scheduled lesson and release reservations with retained history.
+POST {{baseUrl}}/api/v1/practical-lessons/{{lessonId}}/cancellation?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: f97bb614-d001-560d-a45c-cec85f133319
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "reason": "Audited manual action"
+}
+
+### Cancel a scheduled lesson and release reservations with retained history.
+POST {{baseUrl}}/api/v1/theory-lessons/{{lessonId}}/cancellation?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 045cd0b8-a207-53d0-9b46-593e9566d1f0
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "reason": "Audited manual action",
+  "groupId": "{{groupId}}",
+  "enrollmentId": null,
+  "studentId": null,
+  "vehicleId": null
+}
+
+### Cancel a scheduled lesson and release reservations with retained history.
+POST {{baseUrl}}/internal/v1/delegated/lessons/{{lessonId}}/cancellation?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+X-User-Authorization: Bearer {{userToken}}
+X-Confirmation-ID: {{confirmationId}}
+Idempotency-Key: e985e6ca-20c2-5767-8adc-0d6a223c167b
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "reason": "Audited manual action"
+}
+
+### Assigned teacher records physical completion, without awarding learning credit.
+POST {{baseUrl}}/api/v1/practical-lessons/{{lessonId}}/completion?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 2d6b9c08-ac05-5316-b0ba-4072772a98c0
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "actualStart": "2026-11-23T08:00:00Z",
+  "actualEnd": "2026-11-23T08:45:00Z"
+}
+
+### Assigned teacher records physical completion, without awarding learning credit.
+POST {{baseUrl}}/api/v1/theory-lessons/{{lessonId}}/completion?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 2956f798-1c4d-5a36-a3d1-0e4ea14a5a8d
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "actualStart": "2026-11-23T08:00:00Z",
+  "actualEnd": "2026-11-23T08:45:00Z",
+  "groupId": "{{groupId}}",
+  "enrollmentId": null,
+  "studentId": null,
+  "vehicleId": null
+}
+
+### Correct a completed physical interval with explicit School correction authority and reason.
+PATCH {{baseUrl}}/api/v1/lessons/{{lessonId}}/actual-interval?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 94d0f13c-ad1e-57c4-a7ce-aa48a5422b6b
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "actualStart": "2026-11-23T08:00:00Z",
+  "actualEnd": "2026-11-23T08:45:00Z",
+  "reason": "Audited manual action"
+}
+
+### List only the authenticated student's or assigned teacher's lessons.
+GET {{baseUrl}}/api/v1/users/me/lessons?schoolId={{schoolId}}&from=2030-01-07T08:00:00Z&to=2030-01-07T08:45:00Z
+Authorization: Bearer {{userToken}}
+
+### Reconcile an ambiguous command using the same operation identity.
+GET {{baseUrl}}/api/v1/scheduling-operations/{{operationId}}?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+
+### Find bounded provisional slots without exposing foreign calendars.
+GET {{baseUrl}}/api/v1/schools/{{schoolId}}/availability?branchId={{branchId}}&teacherId={{teacherId}}&category=B&from=2030-01-07T08:00:00Z&to=2030-01-07T08:45:00Z&durationMinutes=45&enrollmentId={{enrollmentId}}&studentId={{studentId}}&vehicleId={{vehicleId}}&groupId={{groupId}}
+Authorization: Bearer {{userToken}}
+
+### Save an incomplete school-scoped draft without proposing or reserving lessons.
+POST {{baseUrl}}/api/v1/scheduling-requests
+Authorization: Bearer {{userToken}}
+Idempotency-Key: fedb8f40-c2cb-5313-9918-3ad1a6c042c9
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "expectedRevision": 1
+}
+
+### Create a new editable revision and supersede any pending source proposal.
+PUT {{baseUrl}}/api/v1/scheduling-requests/{{requestId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: ad1ceca5-3938-5bae-977e-09d201d35d6f
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "expectedRevision": 1
+}
+
+### Read the latest authorized revision with safe missing-input categories.
+GET {{baseUrl}}/api/v1/scheduling-requests/{{requestId}}?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+
+### Validate authoritative inputs and freeze the exact request revision.
+POST {{baseUrl}}/api/v1/scheduling-requests/{{requestId}}/submissions?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 1f0f3bd6-e8ec-5396-9c59-3428858447cc
+Content-Type: application/json
+
+{
+  "expectedRevision": 1
+}
+
+### Generate an unconfirmed proposal or prove infeasibility within the bounded input space.
+POST {{baseUrl}}/api/v1/scheduling-requests/{{requestId}}/proposals?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 11972371-b1ec-5392-8ee7-13272e6f929f
+Content-Type: application/json
+
+{
+  "expectedRevision": 1
+}
+
+### Revalidate and atomically reserve every lesson in an exact proposal.
+POST {{baseUrl}}/api/v1/scheduling-requests/{{requestId}}/confirmations?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 32867ad0-50c5-5e99-ae26-ec4fb2c498c5
+Content-Type: application/json
+
+{
+  "expectedRevision": 1
+}
+
+### Revalidate and atomically reserve every lesson in an exact proposal.
+POST {{baseUrl}}/internal/v1/delegated/scheduling-requests/{{requestId}}/confirmations?schoolId={{schoolId}}
+Authorization: Bearer {{workloadToken}}
+X-User-Authorization: Bearer {{userToken}}
+X-Confirmation-ID: {{confirmationId}}
+Idempotency-Key: 342f18c2-671a-55ec-90bb-f93825247976
+Content-Type: application/json
+
+{
+  "expectedRevision": 1
+}
+
+### Publish a new immutable School rule without weakening verified law.
+POST {{baseUrl}}/api/v1/schools/{{schoolId}}/scheduling-rule-versions
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 6532147c-d517-563a-b813-56b8f31435c2
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "ruleType": "MAX_LESSONS_PER_STUDENT_PER_DAY",
+  "value": 2,
+  "expectedRevision": 0,
+  "unit": "Lessons",
+  "scopeKind": "School",
+  "effectiveFrom": "2030-01-07T08:00:00Z",
+  "sourceReference": "urn:vairas:synthetic:school-policy"
+}
+
+### Read the identity, revision and verification state of an authorized School rule version.
+GET {{baseUrl}}/api/v1/schools/{{schoolId}}/scheduling-rule-versions/{{ruleVersionId}}
+Authorization: Bearer {{userToken}}
+
+### Schedule an appointment from current authoritative assessment/readiness evidence.
+POST {{baseUrl}}/api/v1/assessment-appointments
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 7472a170-2732-5ddb-96f7-dbf5e5b03824
+Content-Type: application/json
+
+{
+  "schoolId": "{{schoolId}}",
+  "enrollmentId": "{{enrollmentId}}",
+  "assessmentDefinitionVersionId": "d8c660ff-5b04-5715-af41-9877137df8f4",
+  "readinessEvaluationId": "f72026b3-dd93-55aa-ad74-8cec5609447d",
+  "teacherId": "{{teacherId}}",
+  "branchId": "{{branchId}}",
+  "startsAt": "2030-01-07T08:00:00Z",
+  "endsAt": "2030-01-07T08:45:00Z",
+  "reason": "Audited manual action",
+  "vehicleId": "{{vehicleId}}"
+}
+
+### Read an authorized assessment time/resource allocation.
+GET {{baseUrl}}/api/v1/assessment-appointments/{{appointmentId}}?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+
+### Cancel an appointment without changing Learning readiness or results.
+POST {{baseUrl}}/api/v1/assessment-appointments/{{appointmentId}}/cancellation?schoolId={{schoolId}}
+Authorization: Bearer {{userToken}}
+Idempotency-Key: 12b15ecf-34d8-5981-8006-447c83bf4df3
+Content-Type: application/json
+
+{
+  "expectedVersion": 1,
+  "reason": "Audited manual action"
+}
+
+### Process liveness
+GET {{baseUrl}}/health/live
+
+### Local database readiness
+GET {{baseUrl}}/health/ready
+
+### Development/Testing OpenAPI
+GET {{baseUrl}}/openapi/v1.json

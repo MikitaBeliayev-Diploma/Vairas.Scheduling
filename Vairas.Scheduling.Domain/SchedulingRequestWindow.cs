@@ -1,0 +1,12 @@
+// EF Core / Npgsql 9+ persistence model generated from Database/Vairas_Scheduling_FINAL.dbml.
+// Types in other bounded contexts remain logical IDs only.
+namespace Vairas.Scheduling.Domain;
+
+public sealed partial class SchedulingRequestWindow
+{
+    public Guid Id { get; set; }
+    public Guid RequestId { get; set; }
+    public int RequestRevision { get; set; }
+    public DateTimeOffset StartsAt { get; set; }
+    public DateTimeOffset EndsAt { get; set; }
+}

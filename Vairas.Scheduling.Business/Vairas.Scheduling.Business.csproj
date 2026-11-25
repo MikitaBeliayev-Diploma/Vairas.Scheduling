@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Vairas.Scheduling.Domain/Vairas.Scheduling.Domain.csproj" />
+  </ItemGroup>
+</Project>

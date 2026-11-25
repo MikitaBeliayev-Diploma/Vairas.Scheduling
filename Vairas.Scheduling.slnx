@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Vairas.Scheduling/Vairas.Scheduling.csproj" />
+  <Project Path="Vairas.Scheduling.Business/Vairas.Scheduling.Business.csproj" />
+  <Project Path="Vairas.Scheduling.Domain/Vairas.Scheduling.Domain.csproj" />
+  <Project Path="Vairas.Scheduling.Persistance/Vairas.Scheduling.Persistance.csproj" />
+  <Project Path="Vairas.Scheduling.Tests/Vairas.Scheduling.Tests.csproj" />
+</Solution>

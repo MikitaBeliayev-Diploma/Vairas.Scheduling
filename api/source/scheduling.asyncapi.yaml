@@ -1,0 +1,1188 @@
+asyncapi: 3.0.0
+info:
+  title: Vairas — Scheduling Integration Events
+  version: 0.1.0
+  description: PROPOSED AsyncAPI 3.0.0 contract for Scheduling. Events are reliable at-least-once messages; see
+    README for exact publishing, ordering, privacy and recovery semantics. This is a proposed inter-service payload,
+    not a claim of implemented integration.
+defaultContentType: application/json
+channels:
+  lessonCancelled:
+    address: vairas.scheduling.lesson-cancelled.v1
+    title: LessonCancelled v1
+    description: Logical integration event channel.
+    messages:
+      LessonCancelled:
+        $ref: '#/components/messages/LessonCancelled'
+  lessonCompleted:
+    address: vairas.scheduling.lesson-completed.v1
+    title: LessonCompleted v1
+    description: Logical integration event channel.
+    messages:
+      LessonCompleted:
+        $ref: '#/components/messages/LessonCompleted'
+  lessonRescheduled:
+    address: vairas.scheduling.lesson-rescheduled.v1
+    title: LessonRescheduled v1
+    description: Logical integration event channel.
+    messages:
+      LessonRescheduled:
+        $ref: '#/components/messages/LessonRescheduled'
+  lessonScheduled:
+    address: vairas.scheduling.lesson-scheduled.v1
+    title: LessonScheduled v1
+    description: Logical integration event channel.
+    messages:
+      LessonScheduled:
+        $ref: '#/components/messages/LessonScheduled'
+  maintenanceCompleted:
+    address: vairas.vehicle.maintenance-completed.v1
+    title: MaintenanceCompleted v1
+    description: Logical integration event channel.
+    messages:
+      MaintenanceCompleted:
+        $ref: '#/components/messages/MaintenanceCompleted'
+  maintenanceStarted:
+    address: vairas.vehicle.maintenance-started.v1
+    title: MaintenanceStarted v1
+    description: Logical integration event channel.
+    messages:
+      MaintenanceStarted:
+        $ref: '#/components/messages/MaintenanceStarted'
+  schoolMembershipEnded:
+    address: vairas.school.membership-ended.v1
+    title: SchoolMembershipEnded v1
+    description: Logical integration event channel.
+    messages:
+      SchoolMembershipEnded:
+        $ref: '#/components/messages/SchoolMembershipEnded'
+  studentAssignedToGroup:
+    address: vairas.school.student-assigned-to-group.v1
+    title: StudentAssignedToGroup v1
+    description: Logical integration event channel.
+    messages:
+      StudentAssignedToGroup:
+        $ref: '#/components/messages/StudentAssignedToGroup'
+  studentEnrollmentCompleted:
+    address: vairas.school.enrollment-completed.v1
+    title: StudentEnrollmentCompleted v1
+    description: Logical integration event channel.
+    messages:
+      StudentEnrollmentCompleted:
+        $ref: '#/components/messages/StudentEnrollmentCompleted'
+  studentEnrollmentEnded:
+    address: vairas.school.enrollment-ended.v1
+    title: StudentEnrollmentEnded v1
+    description: Logical integration event channel.
+    messages:
+      StudentEnrollmentEnded:
+        $ref: '#/components/messages/StudentEnrollmentEnded'
+  studentEnrollmentStarted:
+    address: vairas.school.enrollment-started.v1
+    title: StudentEnrollmentStarted v1
+    description: Logical integration event channel.
+    messages:
+      StudentEnrollmentStarted:
+        $ref: '#/components/messages/StudentEnrollmentStarted'
+  studentRemovedFromGroup:
+    address: vairas.school.student-removed-from-group.v1
+    title: StudentRemovedFromGroup v1
+    description: Logical integration event channel.
+    messages:
+      StudentRemovedFromGroup:
+        $ref: '#/components/messages/StudentRemovedFromGroup'
+  teacherAssignedToGroup:
+    address: vairas.school.teacher-assigned-to-group.v1
+    title: TeacherAssignedToGroup v1
+    description: Logical integration event channel.
+    messages:
+      TeacherAssignedToGroup:
+        $ref: '#/components/messages/TeacherAssignedToGroup'
+  userDeactivated:
+    address: vairas.user.deactivated.v1
+    title: UserDeactivated v1
+    description: Logical integration event channel.
+    messages:
+      UserDeactivated:
+        $ref: '#/components/messages/UserDeactivated'
+  vehicleActivated:
+    address: vairas.vehicle.activated.v1
+    title: VehicleActivated v1
+    description: Logical integration event channel.
+    messages:
+      VehicleActivated:
+        $ref: '#/components/messages/VehicleActivated'
+  vehicleDeactivated:
+    address: vairas.vehicle.deactivated.v1
+    title: VehicleDeactivated v1
+    description: Logical integration event channel.
+    messages:
+      VehicleDeactivated:
+        $ref: '#/components/messages/VehicleDeactivated'
+operations:
+  publishLessonCancelled:
+    action: send
+    title: Publish LessonCancelled
+    channel:
+      $ref: '#/channels/lessonCancelled'
+    messages:
+    - $ref: '#/channels/lessonCancelled/messages/LessonCancelled'
+  publishLessonCompleted:
+    action: send
+    title: Publish LessonCompleted
+    channel:
+      $ref: '#/channels/lessonCompleted'
+    messages:
+    - $ref: '#/channels/lessonCompleted/messages/LessonCompleted'
+  publishLessonRescheduled:
+    action: send
+    title: Publish LessonRescheduled
+    channel:
+      $ref: '#/channels/lessonRescheduled'
+    messages:
+    - $ref: '#/channels/lessonRescheduled/messages/LessonRescheduled'
+  publishLessonScheduled:
+    action: send
+    title: Publish LessonScheduled
+    channel:
+      $ref: '#/channels/lessonScheduled'
+    messages:
+    - $ref: '#/channels/lessonScheduled/messages/LessonScheduled'
+  consumeMaintenanceCompleted:
+    action: receive
+    title: Consume MaintenanceCompleted
+    channel:
+      $ref: '#/channels/maintenanceCompleted'
+    messages:
+    - $ref: '#/channels/maintenanceCompleted/messages/MaintenanceCompleted'
+  consumeMaintenanceStarted:
+    action: receive
+    title: Consume MaintenanceStarted
+    channel:
+      $ref: '#/channels/maintenanceStarted'
+    messages:
+    - $ref: '#/channels/maintenanceStarted/messages/MaintenanceStarted'
+  consumeSchoolMembershipEnded:
+    action: receive
+    title: Consume SchoolMembershipEnded
+    channel:
+      $ref: '#/channels/schoolMembershipEnded'
+    messages:
+    - $ref: '#/channels/schoolMembershipEnded/messages/SchoolMembershipEnded'
+  consumeStudentAssignedToGroup:
+    action: receive
+    title: Consume StudentAssignedToGroup
+    channel:
+      $ref: '#/channels/studentAssignedToGroup'
+    messages:
+    - $ref: '#/channels/studentAssignedToGroup/messages/StudentAssignedToGroup'
+  consumeStudentEnrollmentCompleted:
+    action: receive
+    title: Consume StudentEnrollmentCompleted
+    channel:
+      $ref: '#/channels/studentEnrollmentCompleted'
+    messages:
+    - $ref: '#/channels/studentEnrollmentCompleted/messages/StudentEnrollmentCompleted'
+  consumeStudentEnrollmentEnded:
+    action: receive
+    title: Consume StudentEnrollmentEnded
+    channel:
+      $ref: '#/channels/studentEnrollmentEnded'
+    messages:
+    - $ref: '#/channels/studentEnrollmentEnded/messages/StudentEnrollmentEnded'
+  consumeStudentEnrollmentStarted:
+    action: receive
+    title: Consume StudentEnrollmentStarted
+    channel:
+      $ref: '#/channels/studentEnrollmentStarted'
+    messages:
+    - $ref: '#/channels/studentEnrollmentStarted/messages/StudentEnrollmentStarted'
+  consumeStudentRemovedFromGroup:
+    action: receive
+    title: Consume StudentRemovedFromGroup
+    channel:
+      $ref: '#/channels/studentRemovedFromGroup'
+    messages:
+    - $ref: '#/channels/studentRemovedFromGroup/messages/StudentRemovedFromGroup'
+  consumeTeacherAssignedToGroup:
+    action: receive
+    title: Consume TeacherAssignedToGroup
+    channel:
+      $ref: '#/channels/teacherAssignedToGroup'
+    messages:
+    - $ref: '#/channels/teacherAssignedToGroup/messages/TeacherAssignedToGroup'
+  consumeUserDeactivated:
+    action: receive
+    title: Consume UserDeactivated
+    channel:
+      $ref: '#/channels/userDeactivated'
+    messages:
+    - $ref: '#/channels/userDeactivated/messages/UserDeactivated'
+  consumeVehicleActivated:
+    action: receive
+    title: Consume VehicleActivated
+    channel:
+      $ref: '#/channels/vehicleActivated'
+    messages:
+    - $ref: '#/channels/vehicleActivated/messages/VehicleActivated'
+  consumeVehicleDeactivated:
+    action: receive
+    title: Consume VehicleDeactivated
+    channel:
+      $ref: '#/channels/vehicleDeactivated'
+    messages:
+    - $ref: '#/channels/vehicleDeactivated/messages/VehicleDeactivated'
+components:
+  schemas:
+    IntegrationHeaders:
+      type: object
+      additionalProperties: false
+      description: Application headers only; broker protocol-level delivery headers are transport-specific.
+      required:
+      - eventId
+      - eventType
+      - eventVersion
+      - occurredAt
+      - producer
+      - correlationId
+      - aggregateId
+      - aggregateVersion
+      properties:
+        eventId: &id002
+          type: string
+          format: uuid
+        eventType: &id001
+          type: string
+          minLength: 1
+        eventVersion:
+          type: integer
+          const: 1
+        occurredAt:
+          type: string
+          format: date-time
+        producer:
+          type: string
+          enum:
+          - school
+          - scheduling
+          - vehicle
+          - learning
+          - documents
+          - notifications
+          - user
+        correlationId: *id001
+        causationId: *id001
+        aggregateId: *id002
+        aggregateVersion:
+          type: integer
+          minimum: 1
+        traceparent: *id001
+    LessonCancelledPayload:
+      type: object
+      description: Lesson cancelled. Recipients must suppress older queued reminders; already-in-flight messages
+        may still be sent.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - teacherId
+      - cancelledAt
+      properties:
+        schoolId: &id003
+          type: string
+          format: uuid
+        lessonId: *id003
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        teacherId: *id003
+        enrollmentId: *id003
+        groupId: *id003
+        vehicleId: *id003
+        cancelledAt:
+          type: string
+          format: date-time
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    LessonCompletedPayload:
+      type: object
+      description: Scheduling completed lifecycle, also emitted at a new aggregateVersion after an actual-interval correction. Fetch current training-source for actual bounds and identity; planned startsAt/endsAt are not actuals. Never grants credit. Theory additionally requires verified attendance and confirmation.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - teacherId
+      - startsAt
+      - endsAt
+      - scheduledDurationMinutes
+      properties:
+        schoolId: &id004
+          type: string
+          format: uuid
+        lessonId: *id004
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        teacherId: *id004
+        enrollmentId: *id004
+        groupId: *id004
+        vehicleId: *id004
+        startsAt: &id005
+          type: string
+          format: date-time
+        endsAt: *id005
+        scheduledDurationMinutes:
+          type: integer
+          minimum: 1
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    LessonRescheduledPayload:
+      type: object
+      description: A lesson has a new time slot. Source aggregateVersion strictly increases, so stale reminder events
+        may be ignored.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - teacherId
+      - startsAt
+      - endsAt
+      - previousStartsAt
+      - previousEndsAt
+      properties:
+        schoolId: &id006
+          type: string
+          format: uuid
+        lessonId: *id006
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        teacherId: *id006
+        enrollmentId: *id006
+        groupId: *id006
+        vehicleId: *id006
+        startsAt: &id007
+          type: string
+          format: date-time
+        endsAt: *id007
+        previousStartsAt: *id007
+        previousEndsAt: *id007
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    LessonScheduledPayload:
+      type: object
+      description: Scheduled lesson persisted. Participant identifiers only; recipients resolved with school authorization.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - startsAt
+      - endsAt
+      - teacherId
+      properties:
+        schoolId: &id008
+          type: string
+          format: uuid
+        lessonId: *id008
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        startsAt: &id009
+          type: string
+          format: date-time
+        endsAt: *id009
+        teacherId: *id008
+        enrollmentId: *id008
+        groupId: *id008
+        vehicleId: *id008
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    MaintenanceCompletedPayload:
+      type: object
+      description: Maintenance ended; does not independently mean vehicle is active or a Scheduling block was safely
+        released.
+      additionalProperties: false
+      required:
+      - schoolId
+      - vehicleId
+      - maintenanceId
+      - completedAt
+      properties:
+        schoolId: &id010
+          type: string
+          format: uuid
+        vehicleId: *id010
+        maintenanceId: *id010
+        completedAt:
+          type: string
+          format: date-time
+    MaintenanceStartedPayload:
+      type: object
+      description: Maintenance actually started after a successful planned-maintenance Saga, or under the separately
+        audited emergency procedure.
+      additionalProperties: false
+      required:
+      - schoolId
+      - vehicleId
+      - maintenanceId
+      - effectiveAt
+      - operationId
+      - mode
+      properties:
+        schoolId: &id011
+          type: string
+          format: uuid
+        vehicleId: *id011
+        maintenanceId: *id011
+        effectiveAt:
+          type: string
+          format: date-time
+        operationId: *id011
+        mode:
+          type: string
+          enum:
+          - Planned
+          - Emergency
+    SchoolMembershipEndedPayload:
+      type: object
+      description: 'User lost school membership. Event-driven caches are advisory: sensitive writes still require
+        authoritative permission checks.'
+      additionalProperties: false
+      required:
+      - schoolId
+      - membershipId
+      - userId
+      - role
+      - endedAt
+      properties:
+        schoolId: &id012
+          type: string
+          format: uuid
+        membershipId: *id012
+        userId: *id012
+        role:
+          type: string
+          enum:
+          - Student
+          - Teacher
+          - Administrator
+        endedAt:
+          type: string
+          format: date-time
+    StudentAssignedToGroupPayload:
+      type: object
+      description: An enrollment joined a group. EnrollmentId, not StudentId alone, defines the membership.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - groupId
+      - effectiveAt
+      properties:
+        schoolId: &id013
+          type: string
+          format: uuid
+        enrollmentId: *id013
+        groupId: *id013
+        effectiveAt:
+          type: string
+          format: date-time
+    StudentEnrollmentCompletedPayload:
+      type: object
+      description: An enrollment has reached Completed, which differs from an early/exceptional end.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - completedAt
+      properties:
+        schoolId: &id014
+          type: string
+          format: uuid
+        enrollmentId: *id014
+        completedAt:
+          type: string
+          format: date-time
+    StudentEnrollmentEndedPayload:
+      type: object
+      description: An enrollment has ended as withdrawn/transferred/cancelled; affected future lessons require review,
+        not silent deletion.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - endReason
+      - endedAt
+      properties:
+        schoolId: &id015
+          type: string
+          format: uuid
+        enrollmentId: *id015
+        endReason:
+          type: string
+          enum:
+          - Withdrawn
+          - Transferred
+          - Cancelled
+        endedAt:
+          type: string
+          format: date-time
+    StudentEnrollmentStartedPayload:
+      type: object
+      description: Enrollment is created and active; Learning may initialize StudentTraining, Scheduling may refresh
+        eligibility projection.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - studentId
+      - drivingLicenseCategory
+      - startedAt
+      properties:
+        schoolId: &id016
+          type: string
+          format: uuid
+        enrollmentId: *id016
+        studentId: *id016
+        drivingLicenseCategory:
+          type: string
+          minLength: 1
+        startedAt:
+          type: string
+          format: date-time
+    StudentRemovedFromGroupPayload:
+      type: object
+      description: An enrollment ceased to belong to a group; consumers must not infer past attendance from current
+        membership.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - groupId
+      - effectiveAt
+      properties:
+        schoolId: &id017
+          type: string
+          format: uuid
+        enrollmentId: *id017
+        groupId: *id017
+        effectiveAt:
+          type: string
+          format: date-time
+    TeacherAssignedToGroupPayload:
+      type: object
+      description: A teacher was assigned to a training group; not proof of real-time permission at booking confirmation.
+      additionalProperties: false
+      required:
+      - schoolId
+      - groupId
+      - teacherId
+      - assignedAt
+      properties:
+        schoolId: &id018
+          type: string
+          format: uuid
+        groupId: *id018
+        teacherId: *id018
+        assignedAt:
+          type: string
+          format: date-time
+    UserDeactivatedPayload:
+      type: object
+      description: User account business status deactivated globally. Does not by itself revoke already-valid sessions;
+        enforce authoritative security gates.
+      additionalProperties: false
+      required:
+      - userId
+      - deactivatedAt
+      properties:
+        userId:
+          type: string
+          format: uuid
+        deactivatedAt:
+          type: string
+          format: date-time
+    VehicleActivatedPayload:
+      type: object
+      description: Vehicle operational state is Active, but Scheduling must not release its booking gate merely
+        because this event was received.
+      additionalProperties: false
+      required:
+      - schoolId
+      - branchId
+      - vehicleId
+      - effectiveAt
+      properties:
+        schoolId: &id019
+          type: string
+          format: uuid
+        branchId: *id019
+        vehicleId: *id019
+        effectiveAt:
+          type: string
+          format: date-time
+    VehicleDeactivatedPayload:
+      type: object
+      description: Vehicle became operationally Inactive. Emergency deactivation is authoritative in Vehicle; an
+        event alone is not an atomic booking fence.
+      additionalProperties: false
+      required:
+      - schoolId
+      - branchId
+      - vehicleId
+      - effectiveAt
+      - reason
+      properties:
+        schoolId: &id020
+          type: string
+          format: uuid
+        branchId: *id020
+        vehicleId: *id020
+        effectiveAt:
+          type: string
+          format: date-time
+        reason:
+          type: string
+          minLength: 1
+  messages:
+    LessonCancelled:
+      name: LessonCancelled
+      title: LessonCancelled v1
+      summary: Lesson cancelled. Recipients must suppress older queued reminders; already-in-flight messages may
+        still be sent.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonCancelledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonCancelled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonCancelled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          cancelledAt: '2026-11-18T14:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    LessonCompleted:
+      name: LessonCompleted
+      title: LessonCompleted v1
+      summary: Scheduling lesson lifecycle completed. NOT proof of confirmed practical hours. Theory credit additionally
+        requires the verified full roster and current-version assigned-teacher confirmation.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonCompletedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonCompleted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonCompleted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          startsAt: '2026-11-20T10:00:00Z'
+          endsAt: '2026-11-20T11:30:00Z'
+          scheduledDurationMinutes: 90
+      x-contract-status: Base DDD event; integration payload proposed
+    LessonRescheduled:
+      name: LessonRescheduled
+      title: LessonRescheduled v1
+      summary: A lesson has a new time slot. Source aggregateVersion strictly increases, so stale reminder events
+        may be ignored.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonRescheduledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonRescheduled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonRescheduled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          startsAt: '2026-11-20T10:00:00Z'
+          endsAt: '2026-11-20T11:30:00Z'
+          previousStartsAt: '2026-11-19T10:00:00Z'
+          previousEndsAt: '2026-11-19T11:30:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    LessonScheduled:
+      name: LessonScheduled
+      title: LessonScheduled v1
+      summary: Scheduled lesson persisted. Participant identifiers only; recipients resolved with school authorization.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonScheduledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonScheduled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonScheduled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          startsAt: '2026-11-19T10:00:00Z'
+          endsAt: '2026-11-19T11:30:00Z'
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+      x-contract-status: Base DDD event; integration payload proposed
+    MaintenanceCompleted:
+      name: MaintenanceCompleted
+      title: MaintenanceCompleted v1
+      summary: Maintenance ended; does not independently mean vehicle is active or a Scheduling block was safely
+        released.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/MaintenanceCompletedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleMaintenanceCompleted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: MaintenanceCompleted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000010
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          maintenanceId: 10000000-0000-4000-8000-000000000010
+          completedAt: '2026-11-18T15:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    MaintenanceStarted:
+      name: MaintenanceStarted
+      title: MaintenanceStarted v1
+      summary: Maintenance actually started after a successful planned-maintenance Saga, or under the separately
+        audited emergency procedure.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/MaintenanceStartedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleMaintenanceStarted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: MaintenanceStarted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000010
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          maintenanceId: 10000000-0000-4000-8000-000000000010
+          effectiveAt: '2026-11-18T10:00:00Z'
+          operationId: 10000000-0000-4000-8000-000000000011
+          mode: Planned
+      x-contract-status: Base DDD event; integration payload proposed
+    SchoolMembershipEnded:
+      name: SchoolMembershipEnded
+      title: SchoolMembershipEnded v1
+      summary: 'User lost school membership. Event-driven caches are advisory: sensitive writes still require authoritative
+        permission checks.'
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/SchoolMembershipEndedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleSchoolMembershipEnded
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: SchoolMembershipEnded
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000006
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          membershipId: 10000000-0000-4000-8000-000000000006
+          userId: 10000000-0000-4000-8000-000000000007
+          role: Teacher
+          endedAt: '2026-11-15T13:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    StudentAssignedToGroup:
+      name: StudentAssignedToGroup
+      title: StudentAssignedToGroup v1
+      summary: An enrollment joined a group. EnrollmentId, not StudentId alone, defines the membership.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/StudentAssignedToGroupPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleStudentAssignedToGroup
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: StudentAssignedToGroup
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000004
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          groupId: 10000000-0000-4000-8000-000000000004
+          effectiveAt: '2026-11-15T08:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    StudentEnrollmentCompleted:
+      name: StudentEnrollmentCompleted
+      title: StudentEnrollmentCompleted v1
+      summary: An enrollment has reached Completed, which differs from an early/exceptional end.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/StudentEnrollmentCompletedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleStudentEnrollmentCompleted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: StudentEnrollmentCompleted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000002
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          completedAt: '2026-11-15T14:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    StudentEnrollmentEnded:
+      name: StudentEnrollmentEnded
+      title: StudentEnrollmentEnded v1
+      summary: An enrollment has ended as withdrawn/transferred/cancelled; affected future lessons require review,
+        not silent deletion.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/StudentEnrollmentEndedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleStudentEnrollmentEnded
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: StudentEnrollmentEnded
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000002
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          endReason: Transferred
+          endedAt: '2026-11-15T15:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    StudentEnrollmentStarted:
+      name: StudentEnrollmentStarted
+      title: StudentEnrollmentStarted v1
+      summary: Enrollment is created and active; Learning may initialize StudentTraining, Scheduling may refresh
+        eligibility projection.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/StudentEnrollmentStartedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleStudentEnrollmentStarted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: StudentEnrollmentStarted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000002
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          studentId: 10000000-0000-4000-8000-000000000003
+          drivingLicenseCategory: B
+          startedAt: '2026-11-15T08:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    StudentRemovedFromGroup:
+      name: StudentRemovedFromGroup
+      title: StudentRemovedFromGroup v1
+      summary: An enrollment ceased to belong to a group; consumers must not infer past attendance from current
+        membership.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/StudentRemovedFromGroupPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleStudentRemovedFromGroup
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: StudentRemovedFromGroup
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000004
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          groupId: 10000000-0000-4000-8000-000000000004
+          effectiveAt: '2026-11-15T10:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    TeacherAssignedToGroup:
+      name: TeacherAssignedToGroup
+      title: TeacherAssignedToGroup v1
+      summary: A teacher was assigned to a training group; not proof of real-time permission at booking confirmation.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/TeacherAssignedToGroupPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleTeacherAssignedToGroup
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: TeacherAssignedToGroup
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: school
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000004
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          groupId: 10000000-0000-4000-8000-000000000004
+          teacherId: 10000000-0000-4000-8000-000000000005
+          assignedAt: '2026-11-15T08:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    UserDeactivated:
+      name: UserDeactivated
+      title: UserDeactivated v1
+      summary: User account business status deactivated globally. Does not by itself revoke already-valid sessions;
+        enforce authoritative security gates.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/UserDeactivatedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleUserDeactivated
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: UserDeactivated
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: user
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000007
+          aggregateVersion: 3
+        payload:
+          userId: 10000000-0000-4000-8000-000000000007
+          deactivatedAt: '2026-11-15T12:00:00Z'
+      x-contract-status: Implemented User Management sender; subscriber implementations and live broker interoperability
+        not verified.
+    VehicleActivated:
+      name: VehicleActivated
+      title: VehicleActivated v1
+      summary: Vehicle operational state is Active, but Scheduling must not release its booking gate merely because
+        this event was received.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/VehicleActivatedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleVehicleActivated
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: VehicleActivated
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000009
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          branchId: 10000000-0000-4000-8000-000000000008
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          effectiveAt: '2026-11-15T15:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    VehicleDeactivated:
+      name: VehicleDeactivated
+      title: VehicleDeactivated v1
+      summary: Vehicle became operationally Inactive. Emergency deactivation is authoritative in Vehicle; an event
+        alone is not an atomic booking fence.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/VehicleDeactivatedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleVehicleDeactivated
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: VehicleDeactivated
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000009
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          branchId: 10000000-0000-4000-8000-000000000008
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          effectiveAt: '2026-11-15T09:00:00Z'
+          reason: Emergency breakdown
+      x-contract-status: Base DDD event; integration payload proposed

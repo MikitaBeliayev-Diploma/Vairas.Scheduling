@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <UserSecretsId>vairas-scheduling-local</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Vairas.Scheduling.Business/Vairas.Scheduling.Business.csproj" />
+    <ProjectReference Include="../Vairas.Scheduling.Persistance/Vairas.Scheduling.Persistance.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.15"  />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.15"  />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.21.0"  />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.21.0"  />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.21.0"  />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.21.0"  />
+      <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
+  </ItemGroup>
+</Project>

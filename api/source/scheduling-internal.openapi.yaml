@@ -1,0 +1,604 @@
+openapi: 3.1.0
+info:
+  title: Vairas Scheduling Service — Internal Vehicle Booking Gate API
+  version: 0.2.0
+  description: 'PROPOSED internal contract. Vehicle Management orchestrator invokes these
+
+    commands using workload authentication. Scheduling owns all booking gates,
+
+    reservations and their local atomic conflict checks. Each OperationId has
+
+    one stable outcome; rejected commands are also recorded for idempotency.
+
+    '
+tags:
+- name: Vehicle Booking Gate
+security:
+- workloadBearer: []
+paths:
+  /internal/v1/vehicle-blocks:
+    post:
+      tags:
+      - Vehicle Booking Gate
+      operationId: createVehicleBookingBlock
+      summary: Atomically block new bookings for a vehicle
+      description: 'An immediate, open-ended block, not future interval scheduling. Acquire
+
+        the SAME vehicle guard as a lesson booking inside one Scheduling DB
+
+        transaction; detect any future active lesson. On conflict, persist a
+
+        stable rejected command outcome without creating a block. A subsequent
+
+        attempt after lessons are rescheduled MUST use a new operationId.
+
+        '
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBlockRequest'
+            example:
+              operationId: 46c0b177-457b-46a6-b0a7-b170dbac938b
+              vehicleId: 550e8400-e29b-41d4-a716-446655440000
+              reason: Maintenance
+              conflictPolicy: RejectIfFutureBookings
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  operationId: 11111111-1111-4111-8111-111111111111
+                  vehicleId: 11111111-1111-4111-8111-111111111111
+                  reason: Maintenance
+                  conflictPolicy: RejectIfFutureBookings
+      responses:
+        '201':
+          description: New block atomically committed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockOutcome'
+              examples:
+                typical:
+                  summary: New block atomically committed.
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    vehicleId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    updatedAt: '2026-12-01T10:00:00Z'
+        '200':
+          description: Idempotent replay of successful original command.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockOutcome'
+              examples:
+                typical:
+                  summary: Idempotent replay of successful original command.
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    vehicleId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    updatedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Malformed request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Malformed request.
+                status: 400
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '401':
+          description: Missing/invalid service token.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Missing/invalid service token.
+                status: 401
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '403':
+          description: Caller lacks internal Scheduling permission.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Caller lacks internal Scheduling permission.
+                status: 403
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '409':
+          description: Future lessons, competing block, state, or idempotency conflict.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Future lessons, competing block, state, or idempotency conflict.
+                status: 409
+                code: RESOURCE_CONFLICT
+                correlationId: integration-example-01
+        '422':
+          description: Valid JSON but rejected by domain validation.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Valid JSON but rejected by domain validation.
+                status: 422
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '503':
+          description: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-status: proposed
+      x-negative-request:
+        description: 'Missing required operationId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          vehicleId: 11111111-1111-4111-8111-111111111111
+          reason: Maintenance
+          conflictPolicy: RejectIfFutureBookings
+        expectedStatus: 400
+    parameters: []
+  /internal/v1/vehicle-blocks/by-operation/{operationId}:
+    parameters:
+    - name: operationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      tags:
+      - Vehicle Booking Gate
+      operationId: getVehicleBlockCommandOutcome
+      summary: Resolve ambiguous result by Saga operation ID
+      description: 'Returns both successful and rejected persisted outcomes. 404 means
+
+        not yet found; it is NOT proof that an in-flight POST failed. Retry the
+
+        POST with the same operationId when the result remains uncertain.
+
+        '
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      responses:
+        '200':
+          description: Durable known command result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockOutcome'
+              examples:
+                typical:
+                  summary: Durable known command result.
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    vehicleId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    updatedAt: '2026-12-01T10:00:00Z'
+        '401':
+          description: Missing/invalid service token.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Missing/invalid service token.
+                status: 401
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '403':
+          description: Caller lacks internal Scheduling permission.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Caller lacks internal Scheduling permission.
+                status: 403
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '404':
+          description: Unknown operation/block; not definitive proof a concurrent command was rolled back.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Unknown operation/block; not definitive proof a concurrent command was rolled back.
+                status: 404
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '503':
+          description: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-status: proposed
+  /internal/v1/vehicle-blocks/{blockId}/release:
+    parameters:
+    - name: blockId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    post:
+      tags:
+      - Vehicle Booking Gate
+      operationId: releaseVehicleBookingBlock
+      summary: Release precisely one block by a distinct durable command
+      description: 'Only the owning orchestrator may release this specific block after
+
+        verifying Vehicle Management''s authoritative status is Active (normal
+
+        Reactivate) or after confirming the planned transition never applied
+
+        (compensation). No other block is released. A repeated releaseOperationId
+
+        returns the same terminal result without additional side effects.
+
+        '
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseBlockRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  operationId: 11111111-1111-4111-8111-111111111111
+                  releaseOperationId: 11111111-1111-4111-8111-111111111111
+                  reason: Reactivated
+      responses:
+        '200':
+          description: Released, or exact idempotent replay of a release.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockOutcome'
+              examples:
+                typical:
+                  summary: Released, or exact idempotent replay of a release.
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    vehicleId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    updatedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Malformed request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Malformed request.
+                status: 400
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '401':
+          description: Missing/invalid service token.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Missing/invalid service token.
+                status: 401
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '403':
+          description: Caller lacks internal Scheduling permission.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Caller lacks internal Scheduling permission.
+                status: 403
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '404':
+          description: Unknown operation/block; not definitive proof a concurrent command was rolled back.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Unknown operation/block; not definitive proof a concurrent command was rolled back.
+                status: 404
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+        '409':
+          description: Future lessons, competing block, state, or idempotency conflict.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Future lessons, competing block, state, or idempotency conflict.
+                status: 409
+                code: RESOURCE_CONFLICT
+                correlationId: integration-example-01
+        '503':
+          description: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: LessonScheduled
+                title: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-status: proposed
+      x-negative-request:
+        description: 'Missing required operationId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          releaseOperationId: 11111111-1111-4111-8111-111111111111
+          reason: Reactivated
+        expectedStatus: 400
+components:
+  securitySchemes:
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Internal client credential, appropriate workload issuer/audience/scope; never trust network location
+        alone.
+  parameters:
+    OperationId:
+      name: operationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    BlockId:
+      name: blockId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    CorrelationId:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      schema:
+        type: string
+        maxLength: 128
+  schemas:
+    CreateBlockRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - operationId
+      - vehicleId
+      - reason
+      - conflictPolicy
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        vehicleId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          enum:
+          - Maintenance
+          - Deactivation
+        conflictPolicy:
+          type: string
+          enum:
+          - RejectIfFutureBookings
+      description: Create Block Request. See the operation descriptions for authorization and lifecycle constraints.
+    ReleaseBlockRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - operationId
+      - releaseOperationId
+      - reason
+      properties:
+        operationId:
+          type: string
+          format: uuid
+          description: Original Saga operation that acquired this block.
+        releaseOperationId:
+          type: string
+          format: uuid
+          description: Stable idempotency key for the release command.
+        reason:
+          type: string
+          enum:
+          - Reactivated
+          - CompensateFailedTransition
+      description: Release Block Request. See the operation descriptions for authorization and lifecycle constraints.
+    BlockOutcome:
+      type: object
+      additionalProperties: false
+      required:
+      - operationId
+      - vehicleId
+      - status
+      - updatedAt
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        vehicleId:
+          type: string
+          format: uuid
+        blockId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - Active
+          - Released
+          - Rejected
+        errorCode:
+          type: string
+          enum:
+          - FUTURE_LESSONS_EXIST
+          - VEHICLE_ALREADY_BLOCKED
+          - COMMAND_PAYLOAD_MISMATCH
+        updatedAt:
+          type: string
+          format: date-time
+      description: Block Outcome. See the operation descriptions for authorization and lifecycle constraints.
+    Problem:
+      type: object
+      additionalProperties: true
+      required:
+      - type
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+        detail:
+          type: string
+      description: Problem. See the operation descriptions for authorization and lifecycle constraints.
+  responses:
+    BadRequest:
+      description: Malformed request.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Unauthorized:
+      description: Missing/invalid service token.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Forbidden:
+      description: Caller lacks internal Scheduling permission.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    NotFound:
+      description: Unknown operation/block; not definitive proof a concurrent command was rolled back.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Conflict:
+      description: Future lessons, competing block, state, or idempotency conflict.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Unprocessable:
+      description: Valid JSON but rejected by domain validation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Unavailable:
+      description: Temporarily unavailable. Call outcome query or replay same operationId; never assume rollback.
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+            minimum: 1
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'

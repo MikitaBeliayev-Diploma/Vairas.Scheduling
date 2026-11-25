@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableServiceIntegrationTests Condition="'$(EnableServiceIntegrationTests)'=='' and Exists('../../Vairas.SchoolManagement/Vairas.SchoolManagement.Tests/Vairas.SchoolManagement.Tests.csproj') and Exists('../../Vairas.Authentication/Vairas.Authentication/Vairas.Authentication.csproj') and Exists('../../Vairas.UserManagement/Vairas.UserManagement/Vairas.UserManagement.csproj')">true</EnableServiceIntegrationTests>
+    <EnableServiceIntegrationTests Condition="'$(EnableServiceIntegrationTests)'==''">false</EnableServiceIntegrationTests>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(EnableServiceIntegrationTests)'=='true'">
+    <ProjectReference Include="../../Vairas.SchoolManagement/Vairas.SchoolManagement.Tests/Vairas.SchoolManagement.Tests.csproj" Aliases="SchoolTests" />
+    <ProjectReference Include="../../Vairas.Authentication/Vairas.Authentication.Business/Vairas.Authentication.Business.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(EnableServiceIntegrationTests)'!='true'"><Compile Remove="FourServiceTests.cs" /></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Vairas.Scheduling.Business/Vairas.Scheduling.Business.csproj" Aliases="global,SchedulingContracts" />
+    <ProjectReference Include="../Vairas.Scheduling/Vairas.Scheduling.csproj" Aliases="global,SchedulingApi" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15"  />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1"  />
+    <PackageReference Include="NUnit" Version="4.4.0"  />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1"  />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.17.0"  />
+    <PackageReference Include="Moq" Version="4.20.72"  />
+    <PackageReference Include="coverlet.collector" Version="6.0.4" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
