@@ -1,0 +1,764 @@
+{
+  "service": "Vairas.Scheduling",
+  "generated": "2026-11-25",
+  "tool": "coverlet (XPlat Code Coverage) via Backend/local/coverage.py",
+  "filter": "TestCategory!=Broker (broker tests need the Service Bus emulator and run in local/test_all.py)",
+  "threshold": 70,
+  "thresholdMet": true,
+  "total": {
+    "lines": 2696,
+    "covered": 2347,
+    "branches": 2586,
+    "branchesCovered": 1713,
+    "linePercent": 87.05,
+    "branchPercent": 66.24
+  },
+  "assemblies": {
+    "Vairas.Scheduling": {
+      "lines": 753,
+      "covered": 511,
+      "branches": 580,
+      "branchesCovered": 242,
+      "linePercent": 67.86,
+      "branchPercent": 41.72
+    },
+    "Vairas.Scheduling.Business": {
+      "lines": 1098,
+      "covered": 1041,
+      "branches": 1512,
+      "branchesCovered": 1073,
+      "linePercent": 94.81,
+      "branchPercent": 70.97
+    },
+    "Vairas.Scheduling.Domain": {
+      "lines": 293,
+      "covered": 276,
+      "branches": 388,
+      "branchesCovered": 302,
+      "linePercent": 94.2,
+      "branchPercent": 77.84
+    },
+    "Vairas.Scheduling.Persistance": {
+      "lines": 552,
+      "covered": 519,
+      "branches": 106,
+      "branchesCovered": 96,
+      "linePercent": 94.02,
+      "branchPercent": 90.57
+    }
+  },
+  "files": {
+    "Vairas.Scheduling.Business/IOwners.cs": {
+      "lines": 3,
+      "covered": 0,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/LearningSchedulingReads.cs": {
+      "lines": 15,
+      "covered": 0,
+      "branches": 10,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 0.0
+    },
+    "Vairas.Scheduling.Business/NotificationSourceService.cs": {
+      "lines": 8,
+      "covered": 0,
+      "branches": 4,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 0.0
+    },
+    "Integrations/OutboxContextFactory.cs": {
+      "lines": 1,
+      "covered": 0,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 100.0
+    },
+    "Integrations/ServiceBusSender.cs": {
+      "lines": 11,
+      "covered": 0,
+      "branches": 2,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 0.0
+    },
+    "Controllers/AssistantPreviewsController.cs": {
+      "lines": 3,
+      "covered": 0,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 100.0
+    },
+    "Controllers/ConfirmedLessonsController.cs": {
+      "lines": 12,
+      "covered": 0,
+      "branches": 8,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 0.0
+    },
+    "Controllers/LearningIntegrationController.cs": {
+      "lines": 3,
+      "covered": 0,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 100.0
+    },
+    "Controllers/LessonReviewsController.cs": {
+      "lines": 3,
+      "covered": 0,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 100.0
+    },
+    "Controllers/NotificationSourceController.cs": {
+      "lines": 2,
+      "covered": 0,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 100.0
+    },
+    "Controllers/PlanningController.cs": {
+      "lines": 17,
+      "covered": 0,
+      "branches": 2,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 0.0
+    },
+    "Vairas.Scheduling.Persistance/DesignTimeFactory.cs": {
+      "lines": 2,
+      "covered": 0,
+      "branches": 2,
+      "branchesCovered": 0,
+      "linePercent": 0.0,
+      "branchPercent": 0.0
+    },
+    "Security/ReadPreviewDelegation.cs": {
+      "lines": 80,
+      "covered": 7,
+      "branches": 142,
+      "branchesCovered": 5,
+      "linePercent": 8.75,
+      "branchPercent": 3.52
+    },
+    "Integrations/Owners.cs": {
+      "lines": 32,
+      "covered": 4,
+      "branches": 62,
+      "branchesCovered": 0,
+      "linePercent": 12.5,
+      "branchPercent": 0.0
+    },
+    "Integrations/OutboxWorker.cs": {
+      "lines": 27,
+      "covered": 5,
+      "branches": 8,
+      "branchesCovered": 1,
+      "linePercent": 18.52,
+      "branchPercent": 12.5
+    },
+    "Controllers/InternalController.cs": {
+      "lines": 9,
+      "covered": 3,
+      "branches": 4,
+      "branchesCovered": 0,
+      "linePercent": 33.33,
+      "branchPercent": 0.0
+    },
+    "Integrations/InboxWorker.cs": {
+      "lines": 53,
+      "covered": 20,
+      "branches": 36,
+      "branchesCovered": 19,
+      "linePercent": 37.74,
+      "branchPercent": 52.78
+    },
+    "Vairas.Scheduling.Persistance/OutboxStore.cs": {
+      "lines": 22,
+      "covered": 15,
+      "branches": 8,
+      "branchesCovered": 6,
+      "linePercent": 68.18,
+      "branchPercent": 75.0
+    },
+    "Vairas.Scheduling.Business/SchedulingErrors.cs": {
+      "lines": 18,
+      "covered": 13,
+      "branches": 32,
+      "branchesCovered": 7,
+      "linePercent": 72.22,
+      "branchPercent": 21.88
+    },
+    "Configuration/Options/SchedulingOptionsValidator.cs": {
+      "lines": 8,
+      "covered": 6,
+      "branches": 24,
+      "branchesCovered": 14,
+      "linePercent": 75.0,
+      "branchPercent": 58.33
+    },
+    "Integrations/DependencyTransport.cs": {
+      "lines": 21,
+      "covered": 16,
+      "branches": 20,
+      "branchesCovered": 14,
+      "linePercent": 76.19,
+      "branchPercent": 70.0
+    },
+    "Vairas.Scheduling.Business/ScheduleGenerator.cs": {
+      "lines": 22,
+      "covered": 17,
+      "branches": 26,
+      "branchesCovered": 18,
+      "linePercent": 77.27,
+      "branchPercent": 69.23
+    },
+    "Controllers/LessonsController.cs": {
+      "lines": 14,
+      "covered": 11,
+      "branches": 6,
+      "branchesCovered": 6,
+      "linePercent": 78.57,
+      "branchPercent": 100.0
+    },
+    "Integrations/ServiceBusClients.cs": {
+      "lines": 6,
+      "covered": 5,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 83.33,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Persistance/DatabaseExceptionTranslator.cs": {
+      "lines": 36,
+      "covered": 31,
+      "branches": 66,
+      "branchesCovered": 62,
+      "linePercent": 86.11,
+      "branchPercent": 93.94
+    },
+    "Integrations/WorkloadTokens.cs": {
+      "lines": 24,
+      "covered": 21,
+      "branches": 18,
+      "branchesCovered": 13,
+      "linePercent": 87.5,
+      "branchPercent": 72.22
+    },
+    "HealthChecks/DatabaseReadiness.cs": {
+      "lines": 16,
+      "covered": 14,
+      "branches": 4,
+      "branchesCovered": 3,
+      "linePercent": 87.5,
+      "branchPercent": 75.0
+    },
+    "Configuration/ConfigureAuthentication.cs": {
+      "lines": 56,
+      "covered": 49,
+      "branches": 8,
+      "branchesCovered": 5,
+      "linePercent": 87.5,
+      "branchPercent": 62.5
+    },
+    "Configuration/Options/DependencyOptionsValidator.cs": {
+      "lines": 8,
+      "covered": 7,
+      "branches": 8,
+      "branchesCovered": 5,
+      "linePercent": 87.5,
+      "branchPercent": 62.5
+    },
+    "Configuration/Options/JwtOptionsValidator.cs": {
+      "lines": 8,
+      "covered": 7,
+      "branches": 6,
+      "branchesCovered": 4,
+      "linePercent": 87.5,
+      "branchPercent": 66.67
+    },
+    "Vairas.Scheduling.Business/RecurrenceExpander.cs": {
+      "lines": 17,
+      "covered": 15,
+      "branches": 56,
+      "branchesCovered": 35,
+      "linePercent": 88.24,
+      "branchPercent": 62.5
+    },
+    "Configuration/ConfigureTelemetry.cs": {
+      "lines": 9,
+      "covered": 8,
+      "branches": 2,
+      "branchesCovered": 1,
+      "linePercent": 88.89,
+      "branchPercent": 50.0
+    },
+    "Vairas.Scheduling.Domain/LessonRevisionPolicy.cs": {
+      "lines": 10,
+      "covered": 9,
+      "branches": 6,
+      "branchesCovered": 3,
+      "linePercent": 90.0,
+      "branchPercent": 50.0
+    },
+    "Vairas.Scheduling.Persistance/SchedulingStore.cs": {
+      "lines": 24,
+      "covered": 22,
+      "branches": 6,
+      "branchesCovered": 5,
+      "linePercent": 91.67,
+      "branchPercent": 83.33
+    },
+    "Vairas.Scheduling.Domain/Rules/SchedulingRuleEngine.cs": {
+      "lines": 230,
+      "covered": 215,
+      "branches": 360,
+      "branchesCovered": 284,
+      "linePercent": 93.48,
+      "branchPercent": 78.89
+    },
+    "Vairas.Scheduling.Business/SchedulingService.PlanningService.cs": {
+      "lines": 200,
+      "covered": 187,
+      "branches": 268,
+      "branchesCovered": 169,
+      "linePercent": 93.5,
+      "branchPercent": 63.06
+    },
+    "Security/EntryHandler.cs": {
+      "lines": 19,
+      "covered": 18,
+      "branches": 22,
+      "branchesCovered": 15,
+      "linePercent": 94.74,
+      "branchPercent": 68.18
+    },
+    "Vairas.Scheduling.Persistance/SchedulingDbContext.cs": {
+      "lines": 417,
+      "covered": 400,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 95.92,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Domain/ReservationClaimFactory.cs": {
+      "lines": 27,
+      "covered": 26,
+      "branches": 22,
+      "branchesCovered": 15,
+      "linePercent": 96.3,
+      "branchPercent": 68.18
+    },
+    "Middleware/ApiExceptionHandler.cs": {
+      "lines": 32,
+      "covered": 31,
+      "branches": 42,
+      "branchesCovered": 38,
+      "linePercent": 96.88,
+      "branchPercent": 90.48
+    },
+    "Vairas.Scheduling.Business/Security/LessonActions.cs": {
+      "lines": 61,
+      "covered": 60,
+      "branches": 88,
+      "branchesCovered": 85,
+      "linePercent": 98.36,
+      "branchPercent": 96.59
+    },
+    "Vairas.Scheduling.Business/GateService.cs": {
+      "lines": 130,
+      "covered": 128,
+      "branches": 166,
+      "branchesCovered": 108,
+      "linePercent": 98.46,
+      "branchPercent": 65.06
+    },
+    "Vairas.Scheduling.Business/SchedulingRules.cs": {
+      "lines": 76,
+      "covered": 75,
+      "branches": 164,
+      "branchesCovered": 118,
+      "linePercent": 98.68,
+      "branchPercent": 71.95
+    },
+    "Vairas.Scheduling.Business/SchedulingService.cs": {
+      "lines": 227,
+      "covered": 225,
+      "branches": 302,
+      "branchesCovered": 244,
+      "linePercent": 99.12,
+      "branchPercent": 80.79
+    },
+    "Vairas.Scheduling.Business/BadRequestException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/BusinessException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/ConflictException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/ForbiddenException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/LessonReviewService.cs": {
+      "lines": 72,
+      "covered": 72,
+      "branches": 72,
+      "branchesCovered": 61,
+      "linePercent": 100.0,
+      "branchPercent": 84.72
+    },
+    "Vairas.Scheduling.Business/NotFoundException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/OperationPendingException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/SchedulingEvents.cs": {
+      "lines": 14,
+      "covered": 14,
+      "branches": 24,
+      "branchesCovered": 22,
+      "linePercent": 100.0,
+      "branchPercent": 91.67
+    },
+    "Vairas.Scheduling.Business/SchedulingService.AssistantPreviews.cs": {
+      "lines": 38,
+      "covered": 38,
+      "branches": 54,
+      "branchesCovered": 36,
+      "linePercent": 100.0,
+      "branchPercent": 66.67
+    },
+    "Vairas.Scheduling.Business/SchedulingService.ConfirmedLessonService.cs": {
+      "lines": 50,
+      "covered": 50,
+      "branches": 56,
+      "branchesCovered": 45,
+      "linePercent": 100.0,
+      "branchPercent": 80.36
+    },
+    "Vairas.Scheduling.Business/SchedulingService.Resources.cs": {
+      "lines": 135,
+      "covered": 135,
+      "branches": 188,
+      "branchesCovered": 124,
+      "linePercent": 100.0,
+      "branchPercent": 65.96
+    },
+    "Vairas.Scheduling.Business/ServiceUnavailableException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/UnauthorizedException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/UnprocessableEntityException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Business/Wire.cs": {
+      "lines": 3,
+      "covered": 3,
+      "branches": 2,
+      "branchesCovered": 1,
+      "linePercent": 100.0,
+      "branchPercent": 50.0
+    },
+    "Program.cs": {
+      "lines": 29,
+      "covered": 29,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Middleware/AvailabilityAudit.cs": {
+      "lines": 14,
+      "covered": 14,
+      "branches": 22,
+      "branchesCovered": 16,
+      "linePercent": 100.0,
+      "branchPercent": 72.73
+    },
+    "Middleware/CorrelationMiddleware.cs": {
+      "lines": 10,
+      "covered": 10,
+      "branches": 10,
+      "branchesCovered": 9,
+      "linePercent": 100.0,
+      "branchPercent": 90.0
+    },
+    "Middleware/Problems.cs": {
+      "lines": 7,
+      "covered": 7,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Middleware/RequestLoggingMiddleware.cs": {
+      "lines": 9,
+      "covered": 9,
+      "branches": 4,
+      "branchesCovered": 2,
+      "linePercent": 100.0,
+      "branchPercent": 50.0
+    },
+    "Integrations/DependencyCorrelationHandler.cs": {
+      "lines": 7,
+      "covered": 7,
+      "branches": 2,
+      "branchesCovered": 2,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Integrations/SchedulingActorFactory.cs": {
+      "lines": 24,
+      "covered": 24,
+      "branches": 56,
+      "branchesCovered": 26,
+      "linePercent": 100.0,
+      "branchPercent": 46.43
+    },
+    "Configuration/ApiDocumentTransformer.cs": {
+      "lines": 25,
+      "covered": 25,
+      "branches": 40,
+      "branchesCovered": 32,
+      "linePercent": 100.0,
+      "branchPercent": 80.0
+    },
+    "Configuration/ConfigureAuthorization.cs": {
+      "lines": 15,
+      "covered": 15,
+      "branches": 2,
+      "branchesCovered": 2,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureDatabase.cs": {
+      "lines": 9,
+      "covered": 9,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureDependencyInjection.cs": {
+      "lines": 16,
+      "covered": 16,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureExceptionHandling.cs": {
+      "lines": 13,
+      "covered": 13,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureHealthChecks.cs": {
+      "lines": 9,
+      "covered": 9,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureHttpClients.cs": {
+      "lines": 9,
+      "covered": 9,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureJsonSerialization.cs": {
+      "lines": 14,
+      "covered": 14,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureLogging.cs": {
+      "lines": 5,
+      "covered": 5,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureMessageBroker.cs": {
+      "lines": 7,
+      "covered": 7,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureOpenApi.cs": {
+      "lines": 6,
+      "covered": 6,
+      "branches": 4,
+      "branchesCovered": 3,
+      "linePercent": 100.0,
+      "branchPercent": 75.0
+    },
+    "Configuration/ConfigureOptions.cs": {
+      "lines": 14,
+      "covered": 14,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/ConfigureRateLimiting.cs": {
+      "lines": 28,
+      "covered": 28,
+      "branches": 2,
+      "branchesCovered": 2,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Configuration/Options/DatabaseOptionsValidator.cs": {
+      "lines": 3,
+      "covered": 3,
+      "branches": 2,
+      "branchesCovered": 1,
+      "linePercent": 100.0,
+      "branchPercent": 50.0
+    },
+    "Configuration/Options/InboxOptionsValidator.cs": {
+      "lines": 3,
+      "covered": 3,
+      "branches": 6,
+      "branchesCovered": 2,
+      "linePercent": 100.0,
+      "branchPercent": 33.33
+    },
+    "Configuration/Options/OutboxOptionsValidator.cs": {
+      "lines": 3,
+      "covered": 3,
+      "branches": 6,
+      "branchesCovered": 2,
+      "linePercent": 100.0,
+      "branchPercent": 33.33
+    },
+    "Vairas.Scheduling.Domain/LessonHistoryFactory.cs": {
+      "lines": 14,
+      "covered": 14,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Domain/Rules/RuleCodes.cs": {
+      "lines": 11,
+      "covered": 11,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Domain/Rules/RuleEvaluation.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Persistance/PersistenceFailureException.cs": {
+      "lines": 1,
+      "covered": 1,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Persistance/ReservationAuthority.cs": {
+      "lines": 22,
+      "covered": 22,
+      "branches": 20,
+      "branchesCovered": 19,
+      "linePercent": 100.0,
+      "branchPercent": 95.0
+    },
+    "Vairas.Scheduling.Persistance/SchedulingDatabase.cs": {
+      "lines": 6,
+      "covered": 6,
+      "branches": 0,
+      "branchesCovered": 0,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    },
+    "Vairas.Scheduling.Persistance/SchedulingDbContext.ModelExtensions.cs": {
+      "lines": 22,
+      "covered": 22,
+      "branches": 4,
+      "branchesCovered": 4,
+      "linePercent": 100.0,
+      "branchPercent": 100.0
+    }
+  }
+}
